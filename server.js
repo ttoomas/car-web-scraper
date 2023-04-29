@@ -1,7 +1,17 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
+import mysql from 'mysql';
 
 
+// DB SETUP
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "car-web-scrape"
+})
+
+// SCRAPE CAR URLS
 const carBazarUrl = `https://www.sauto.cz/`;
 const url = `${carBazarUrl}inzerce/osobni/porsche`;
 const eachCarUrl = [];
@@ -33,19 +43,18 @@ async function scrapeCarUrls(){
 async function scrapeEachCar(){
     let index = 0;
 
-    for (const carUrl of eachCarUrl) {
-        index++;
-        // if(index !== 17) continue;
-        console.log(index);
+    // for (const carUrl of eachCarUrl) {
+    //     index++;
+    //     console.log(index);
 
-        await scrapeCar(carUrl);
+    //     await scrapeCar(carUrl);
 
-    }
-
-    await sendDataToDb();
+    // }
 
     await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/911/188996724');
     // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/cayenne/189120921');
+    
+    await createTable();
 }
 
 
@@ -57,22 +66,22 @@ async function scrapeCar(carUrl){
         const $ = cheerio.load(res.data);
         
         let carDetails = {
-            name: undefined,
-            prize: undefined,
-            condition: undefined,
-            distance: undefined,
-            prodDate: undefined, 
-            body: undefined,
-            color: undefined,
-            fuel: undefined,
-            capacity: undefined,
-            performance: undefined,
-            transmission: undefined,
-            gear: undefined,
-            countryOrigin: undefined,
-            telContact: undefined,
+            name: null,
+            prize: null,
+            condition: null,
+            distance: null,
+            prodDate: null, 
+            body: null,
+            color: null,
+            fuel: null,
+            capacity: null,
+            performance: null,
+            transmission: null,
+            gear: null,
+            countryOrigin: null,
+            telContact: null,
             url: carUrl,
-            imageUrl: undefined
+            imageUrl: null
         }
 
 
@@ -81,7 +90,7 @@ async function scrapeCar(carUrl){
         if(carNameLong) carDetails.name = carNameLong.split(',')[0];
 
         let carPrize = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.p-uw-item-detail__wrap > div.sds-surface.sds-surface--05.p-uw-item-detail__info > div.c-a-basic-info > div.c-a-basic-info__price-wrapper > div:nth-child(1) > div').text();
-        if(carPrize) carDetails.prize = carPrize.split(' Kč')[0];
+        if(carPrize) carDetails.prize = carPrize.split(' Kč')[0].replace(/[^\x00-\x7F]/g, "");
 
         carDetails.condition = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(1) > td').text();
 
@@ -129,6 +138,8 @@ async function scrapeCar(carUrl){
 
         // Push carDetails object into array
         fullCarInfo.push(carDetails);
+
+        console.log(carDetails);
     }
     catch(err){
         console.log(err);
@@ -137,8 +148,42 @@ async function scrapeCar(carUrl){
 
 
 // Send data to database
-async function sendDataToDb(){
-    console.log(fullCarInfo);
+async function createTable(){
+    let date = new Date().getTime();
+
+    // MySQL Create Table
+    const createTableQuery = `CREATE TABLE car_? LIKE template`;
+
+    try{
+        db.query(createTableQuery, date);
+    }
+    catch(err){
+        console.log(err);
+    }
+    finally{
+        await pushDataIntoTable(date);
+    }
+}
+
+async function pushDataIntoTable(date){
+    let index = 0;
+
+    for (const carInfo of fullCarInfo) {
+        index++;
+
+        const fillTableQuery = "INSERT INTO car_?(`name`, `prize`, `condition_car`, `distance`, `prod_date`, `body`, `color`, `fuel`, `capacity`, `performance`, `transmission`, `gear`, `country_origin`, `tel_contact`, `url`, `image_url`) VALUES(?)";
+
+        const values = Object.values(carInfo);
+
+        try{
+            db.query(fillTableQuery, [date, values]);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
+    console.log('Completed');
 }
 
 
