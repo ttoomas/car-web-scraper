@@ -3,6 +3,8 @@ import cheerio from 'cheerio';
 import mysql from 'mysql';
 
 
+// TODO - CHECK ALL TITLES -> JAWA PROD_DATE IS NOT WORKING
+
 // DB SETUP
 const db = mysql.createConnection({
     host: "localhost",
@@ -12,15 +14,18 @@ const db = mysql.createConnection({
 })
 
 // SCRAPE CAR URLS
-const carBazarUrl = `https://www.sauto.cz/`;
-const url = `${carBazarUrl}inzerce/osobni/porsche`;
+const carBazarUrl = `https://www.sauto.cz`;
+const carTypeUrl = `inzerce/ctyrkolky`;
+const carPageUrl = `?strana=2`;
+const carFullUrl = `${carBazarUrl}/${carTypeUrl}/${carPageUrl}`;
+
 const eachCarUrl = [];
 const fullCarInfo = [];
 
 async function scrapeCarUrls(){
     try{
 
-        const res = await axios(url);
+        const res = await axios(carFullUrl);
         const $ = cheerio.load(res.data);
 
         let linkBxs = $('.sds-surface.sds-surface--clickable.sds-surface--00.c-item__link');
@@ -155,29 +160,32 @@ async function scrapeCar(carUrl){
 // Send data to database
 async function createTable(){
     let date = new Date().getTime();
+    let categorySplited = carTypeUrl.split('/');
+    let category = categorySplited[categorySplited.length - 1];
+    let tableId = `car_${category}_${date}`;
 
     // MySQL Create Table
-    const createTableQuery = `CREATE TABLE car_? LIKE template`;
+    const createTableQuery = "CREATE TABLE ?? LIKE template";
 
     try{
-        db.query(createTableQuery, date);
+        db.query(createTableQuery, tableId);
     }
     catch(err){
         console.log(err);
     }
     finally{
-        await pushDataIntoTable(date);
+        await pushDataIntoTable(tableId);
     }
 }
 
-async function pushDataIntoTable(date){
+async function pushDataIntoTable(tableId){
     for (const carInfo of fullCarInfo) {
-        const fillTableQuery = "INSERT INTO car_?(`name`, `prize`, `condition_car`, `distance`, `prod_date`, `body`, `color`, `fuel`, `capacity`, `performance`, `transmission`, `gear`, `country_origin`, `tel_contact`, `url`, `image_url`) VALUES(?)";
+        const fillTableQuery = "INSERT INTO ??(`name`, `prize`, `condition_car`, `distance`, `prod_date`, `body`, `color`, `fuel`, `capacity`, `performance`, `transmission`, `gear`, `country_origin`, `tel_contact`, `url`, `image_url`) VALUES(?)";
 
         const values = Object.values(carInfo);
 
         try{
-            db.query(fillTableQuery, [date, values]);
+            db.query(fillTableQuery, [tableId, values]);
         }
         catch(err){
             console.log(err);
