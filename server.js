@@ -43,15 +43,14 @@ async function scrapeCarUrls(){
 async function scrapeEachCar(){
     let index = 0;
 
-    // for (const carUrl of eachCarUrl) {
-    //     index++;
-    //     console.log(index);
+    for (const carUrl of eachCarUrl) {
+        index++;
+        console.log(index);
 
-    //     await scrapeCar(carUrl);
+        await scrapeCar(carUrl);
+    }
 
-    // }
-
-    await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/911/188996724');
+    // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/911/188996724');
     // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/cayenne/189120921');
     
     await createTable();
@@ -92,38 +91,46 @@ async function scrapeCar(carUrl){
         let carPrize = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.p-uw-item-detail__wrap > div.sds-surface.sds-surface--05.p-uw-item-detail__info > div.c-a-basic-info > div.c-a-basic-info__price-wrapper > div:nth-child(1) > div').text();
         if(carPrize) carDetails.prize = carPrize.split(' Kč')[0].replace(/[^\x00-\x7F]/g, "");
 
-        carDetails.condition = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(1) > td').text();
+        let carCondition = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(1) > td').text();
+        if(carCondition) carDetails.condition = carCondition;
 
         let carDistance = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(2) > td').text()
-        if(carDistance) carDetails.distance = carDistance.split(' km')[0];
+        if(carDistance) carDetails.distance = carDistance.split(' km')[0].replace(/[^\x00-\x7F]/g, "");
 
-        carDetails.prodDate = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(3) > td').text();
+        let carProdDate = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(3) > td').text();
+        if(carProdDate) carDetails.prodDate = carProdDate;
 
-        carDetails.body = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(4) > tbody > tr:nth-child(1) > td').text();
+        let carBody = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(4) > tbody > tr:nth-child(1) > td').text();
+        if(carBody) carDetails.body = carBody;
 
-        carDetails.color = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(4) > tbody > tr:nth-child(2) > td').text();
+        let carColor = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(4) > tbody > tr:nth-child(2) > td').text();
+        if(carColor) carDetails.color = carColor;
 
-        carDetails.fuel = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(1) > td').text();
+        let carFuel = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(1) > td').text();
+        if(carFuel) carDetails.fuel = carFuel;
 
         let carCapacity = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(2) > td').text();
-        if(carCapacity) carDetails.capacity = carCapacity.split(' ccm')[0];
+        if(carCapacity) carDetails.capacity = carCapacity.split(' ccm')[0].replace(/[^\x00-\x7F]/g, "");
 
         let carPerformance = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(3) > td').text();
-        if(carPerformance) carDetails.performance = carPerformance.split(' kW')[0];
+        if(carPerformance) carDetails.performance = carPerformance.split(' kW')[0].replace(/[^\x00-\x7F]/g, "");
 
         if($('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(4) > th').text() === "Převodovka:"){
-            carDetails.transmission = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(4) > td').text();
+            let carTransmission = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(4) > td').text();
+            if(carTransmission) carDetails.transmission = carTransmission;
         }
 
         if($('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(5) > th').text() === "Pohon:"){
-            carDetails.gear = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(5) > td').text();
+            let carGear = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(6) > tbody > tr:nth-child(5) > td').text();
+            if(carGear) carDetails.gear = carGear;
         }
 
         for (let i = 0; i < 5; i++) {
             let currentDetail = $(`#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(8) > tbody > tr:nth-child(${i}) > th`).text();
 
             if(currentDetail == "Země původu:"){
-                carDetails.countryOrigin = $(`#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(8) > tbody > tr:nth-child(${i}) > td`).text();
+                let carCountryOrigin = $(`#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(8) > tbody > tr:nth-child(${i}) > td`).text();
+                if(carCountryOrigin) carDetails.countryOrigin = carCountryOrigin;
                 
                 break;
             }
@@ -138,8 +145,6 @@ async function scrapeCar(carUrl){
 
         // Push carDetails object into array
         fullCarInfo.push(carDetails);
-
-        console.log(carDetails);
     }
     catch(err){
         console.log(err);
@@ -166,11 +171,7 @@ async function createTable(){
 }
 
 async function pushDataIntoTable(date){
-    let index = 0;
-
     for (const carInfo of fullCarInfo) {
-        index++;
-
         const fillTableQuery = "INSERT INTO car_?(`name`, `prize`, `condition_car`, `distance`, `prod_date`, `body`, `color`, `fuel`, `capacity`, `performance`, `transmission`, `gear`, `country_origin`, `tel_contact`, `url`, `image_url`) VALUES(?)";
 
         const values = Object.values(carInfo);
