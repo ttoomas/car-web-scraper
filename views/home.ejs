@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Bazar Scraper</title>
+
+    <link rel="stylesheet" type="text/css" href="/res/css/home.css">
+</head>
+<body>
+
+    <!-- Type, Brand, Page, Mby how many -->
+    <main class="main">
+        <h1 class="main__title">Car Bazar Web Scraper</h1>
+        
+        <div class="main__type">
+            <h2 class="main__subtitle">Select Car Type</h2>
+
+            <div class="main__container mainChoose mainType">
+                <!-- <div class="main__bx selected">
+                    <h3 class="main__name">Osobní</h3>
+                    <img src="./views/res/img/car.png" alt="Icon of personal car" class="main__img">
+                </div> -->
+            </div>
+        </div>
+        
+        <div class="main__type">
+            <h2 class="main__subtitle">Select Car Brand</h2>
+
+            <div class="main__bxContainer">
+                <!-- <div class="main__container mainChoose mainBrand">
+                    <div class="main__bx">
+                        <h3 class="main__name">Audi</h3>
+                        <img src="./views/res/img/autobusy.png" alt="Icon of Audi Company" class="main__img">
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+        <div class="main__type">
+            <h2 class="main__subtitle">Utilities</h2>
+
+            <div class="util__container">
+                <div class="util__bx">
+                    <h3 class="util__name">Page Number</h3>
+                    <input type="number" class="util__number" min="0" max="999" placeholder="0">
+                </div>
+                <div class="util__bx">
+                    <h3 class="util__name">Number of Cars</h3>
+                    <div class="util__set">
+                        <input type="range" class="util__range" min="1" max="50" value="1">
+                        <h4 class="util__count">1</h4>
+                    </div>
+                </div>
+            </div>
+
+            <button class="main__submit">View</button>
+        </div>
+    </main>
+
+
+    <!-- Js -->
+    <script src="/res/js/home.js"></script>
+    
+</body>
+</html>

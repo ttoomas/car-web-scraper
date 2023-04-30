@@ -1,9 +1,34 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import mysql from 'mysql';
+import express from 'express';
+import path from 'path';
 
 
-// TODO - CHECK ALL TITLES -> JAWA PROD_DATE IS NOT WORKING
+
+// PAGE SETUP
+const app = express();
+const PORT = 8090;
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, ('public'))));
+
+app.get('/', (req, res) => {
+    res.render('home.ejs');
+})
+
+app.get('/auto/', (req, res) => {
+    console.log(req.query);
+
+    res.render('car.ejs');
+})
+
+
+
+app.listen(PORT, () => {
+    console.log(`http://localhost:${PORT}`);
+})
+
 
 // DB SETUP
 const db = mysql.createConnection({
@@ -48,18 +73,18 @@ async function scrapeCarUrls(){
 async function scrapeEachCar(){
     let index = 0;
 
-    for (const carUrl of eachCarUrl) {
-        index++;
-        console.log(index);
+    // for (const carUrl of eachCarUrl) {
+    //     index++;
+    //     console.log(index);
 
-        await scrapeCar(carUrl);
-    }
+    //     await scrapeCar(carUrl);
+    // }
 
-    // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/911/188996724');
+    await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/911/188996724');
     // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/cayenne/189120921');
     // await scrapeCar('https://www.sauto.cz/motorky/detail/jawa/ostatni/164076649');
     
-    await createTable();
+    // await createTable();
 }
 
 

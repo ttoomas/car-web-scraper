@@ -1,0 +1,159 @@
+[
+    {
+        "name": "Osobní",
+        "icon": "osobni",
+        "brands": [
+            "Audi",
+            "BMW",
+            "Citroen",
+            "Fiat",
+            "Ford",
+            "Hyundai",
+            "Mazda",
+            "Mercedes-Benz",
+            "Opel",
+            "Peugeot",
+            "Renault",
+            "Škoda",
+            "Toyota",
+            "Volkswagen",
+            "Volvo"
+        ]
+    },
+    {
+        "name": "Užitková",
+        "icon": "uzitkova",
+        "brands": [
+            "Citroen",
+            "Fiat",
+            "Ford",
+            "Hyundai",
+            "Iveco",
+            "Mercedes-Benz",
+            "Opel",
+            "Peugeot",
+            "Renault",
+            "Toyota",
+            "Volkswagen"
+        ]
+    },
+    {
+        "name": "Nákladní",
+        "icon": "nakladni",
+        "brands": [
+            "Avia",
+            "DAF",
+            "Iveco",
+            "Liaz",
+            "MAN",
+            "Mercedes-Benz",
+            "Praga",
+            "Renault",
+            "Scania",
+            "Tatra",
+            "Volvo"
+        ]
+    },
+    {
+        "name": "Motorky",
+        "icon": "motorky",
+        "brands": [
+            "Aprilia",
+            "BMW",
+            "Ducati",
+            "Harley-Davidson",
+            "Honda",
+            "Jawa",
+            "Kawasaki",
+            "KTM",
+            "Suzuki",
+            "Triumph",
+            "Yamaha"
+        ]
+    },
+    {
+        "name": "Čtyřkolky",
+        "icon": "ctyrkolky",
+        "brands": [
+            "Access",
+            "Arctic Cat",
+            "Can-Am",
+            "Honda",
+            "JourneyMan",
+            "Kymco",
+            "Linhai",
+            "Polaris",
+            "Suzuki",
+            "TGB",
+            "Yamaha"
+        ]
+    },
+    {
+        "name": "Přívěsy",
+        "icon": "privesy-navesy",
+        "brands": [
+            "Agados",
+            "Autovia",
+            "Humbaur",
+            "Kögel",
+            "Krone",
+            "Maro",
+            "Panav",
+            "Schmitz",
+            "Schwarzmüller",
+            "VAPP",
+            "Vezeko"
+        ]
+    },
+    {
+        "name": "Obytné",
+        "icon": "obytne",
+        "brands": [
+            "Adria",
+            "Bürstner",
+            "Dethleffs",
+            "Fiat",
+            "Ford",
+            "Hobby",
+            "Hymer",
+            "Knaus",
+            "Laika",
+            "Mercedes-Benz",
+            "Volkswagen"
+        ]
+    },
+    {
+        "name": "Pracovní",
+        "icon": "pracovni-stroje",
+        "brands": [
+            "Bobcat",
+            "Case",
+            "Caterpillar",
+            "Desta",
+            "JCB",
+            "Jungheinrich",
+            "Komatsu",
+            "New Holland",
+            "Toyota",
+            "Zetor",
+            "ZTS"
+        ]
+    },
+    {
+        "name": "Autobusy",
+        "icon": "autobusy",
+        "brands": [
+            "Berkhof",
+            "Ford",
+            "Isuzu",
+            "Iveco",
+            "Karosa",
+            "MAN",
+            "Mercedes-Benz",
+            "Oasa",
+            "Renault",
+            "Setra",
+            "Volkswagen"
+        ]
+    }
+]
