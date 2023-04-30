@@ -15,8 +15,8 @@ const db = mysql.createConnection({
 
 // SCRAPE CAR URLS
 const carBazarUrl = `https://www.sauto.cz`;
-const carTypeUrl = `inzerce/ctyrkolky`;
-const carPageUrl = `?strana=2`;
+const carTypeUrl = `inzerce/osobni/bmw`;
+const carPageUrl = `?strana=1`;
 const carFullUrl = `${carBazarUrl}/${carTypeUrl}/${carPageUrl}`;
 
 const eachCarUrl = [];
@@ -57,6 +57,7 @@ async function scrapeEachCar(){
 
     // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/911/188996724');
     // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/cayenne/189120921');
+    // await scrapeCar('https://www.sauto.cz/motorky/detail/jawa/ostatni/164076649');
     
     await createTable();
 }
@@ -99,11 +100,21 @@ async function scrapeCar(carUrl){
         let carCondition = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(1) > td').text();
         if(carCondition) carDetails.condition = carCondition;
 
-        let carDistance = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(2) > td').text()
-        if(carDistance) carDetails.distance = carDistance.split(' km')[0].replace(/[^\x00-\x7F]/g, "");
+        let carDistanceLabel = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(2) > th').text();
+        if(carDistanceLabel === "Najeto:"){
+            let carDistance = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(2) > td').text()
+            if(carDistance) carDetails.distance = carDistance.split(' km')[0].replace(/[^\x00-\x7F]/g, "");
+        }
+        else if(carDistanceLabel === "Vyrobeno:"){
+            let carProdDate = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(2) > td').text();
+            if(carProdDate) carDetails.prodDate = carProdDate;
+        }
 
-        let carProdDate = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(3) > td').text();
-        if(carProdDate) carDetails.prodDate = carProdDate;
+        let carProdLabel = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(3) > th').text();
+        if(carProdLabel === "Vyrobeno:"){
+            let carProdDate = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(2) > tbody > tr:nth-child(3) > td').text();
+            if(carProdDate) carDetails.prodDate = carProdDate;
+        }
 
         let carBody = $('#page > div.c-layout__wrapper > div.p-uw-item-detail.c-layout > div.c-layout__content > div > div.p-uw-item-detail__car-column > div.sds-surface.sds-surface--05.p-uw-item-detail__info.c-car-details > div > table:nth-child(4) > tbody > tr:nth-child(1) > td').text();
         if(carBody) carDetails.body = carBody;
