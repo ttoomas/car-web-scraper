@@ -129,7 +129,7 @@ mainViewBtn.addEventListener('click', () => {
     const carUrlInfo = {
         type: activeBxs[0].name,
         brand: activeBxs[1].name,
-        page: utilNumberInput.value ? parseInt(utilNumberInput.value) : 0,
+        page: utilNumberInput.value ? parseInt(utilNumberInput.value) : 1,
         count: parseInt(utilRange.value)
     }
 

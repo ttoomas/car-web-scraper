@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+body{
+	margin: 0;
+	padding: 0;
+    font-family: 'Poppins', sans-serif;
+	font-weight: 400;
+
+    /* Just for footer development */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+html{
+	box-sizing: border-box;
+}
+*,::after,::before{
+	box-sizing: inherit;
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p{
+    margin: 0;
+}
+
+
+/* MAIN */
+.main{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    padding: 50px 60px;
+}
+
+.main.loading .main__preloader{
+    display: grid;
+}
+.main.loading .main__table{
+    display: none;
+}
+
+/* Preloader */
+.main__preloader{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background-color: white;
+    user-select: none;
+
+    display: none;
+}
+.preloader__rot{
+    display: block;
+    width: 190px;
+    height: 190px;
+    border: 16px solid white;
+    border-top: 16px solid black;
+    border-bottom: 16px solid black;
+    border-radius: 50%;
+    grid-row: 1;
+    grid-column: 1;
+    animation: preloader 1600ms cubic-bezier(0.72, 0.03, 0.38, 0.91) infinite;
+}
+.preloader__title{
+    grid-row: 1;
+    grid-column: 1;
+    text-transform: uppercase;
+    z-index: 10;
+    font-size: 26px;
+    font-weight: 500;
+    animation: preloaderScale 1600ms linear infinite;
+}
+
+@keyframes preloader {
+    0%{
+        rotate: 0deg;
+    }
+    100%{
+        rotate: 360deg;
+    }
+}
+
+@keyframes preloaderScale {
+    0%{
+        scale: 1;
+    }
+    25%{
+        scale: 0.9;
+    }
+    50%{
+        scale: 1;
+    }
+    75%{
+        scale: 1.1;
+    }
+    100%{
+        scale: 1;
+    }
+}
+
+
+/* Table */
+.main__table{
+    display: flex;
+    flex-direction: column;
+    row-gap: 32px;
+}
+.main__title{
+    font-size: 40px;
+    text-align: center;
+    font-weight: 500;
+}
+.table{
+    border-spacing: 0;
+}
+.table tr:first-of-type{
+    background-color: black;
+    color: white;
+}
+.table th, .table td{
+    border: 1px solid black;
+}
+.table th:not(:last-of-type){
+    border-right: 1px solid white;
+}
+.table th{
+    font-weight: 600;
+    padding: 11px;
+}
+.table td{
+    text-align: center;
+    font-size: 15px;
+    padding: 14px 6px;
+}
+.table td a{
+    color: black;
+    text-decoration: none;
+    border-bottom: 2px dotted black;
+    padding-bottom: 2px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+}
+.table tr:nth-of-type(odd):not(:first-of-type){
+    background-color: #ececec;
+}
