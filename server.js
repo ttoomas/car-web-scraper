@@ -6,7 +6,7 @@ import { startScraping } from './scrapeData.js';
 
 // PAGE SETUP
 const app = express();
-const PORT = 8090;
+const PORT = process.env.PORT | 8090;
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, ('public'))));

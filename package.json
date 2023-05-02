@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "car website scraper",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "ttoomas",
   "license": "ISC",
