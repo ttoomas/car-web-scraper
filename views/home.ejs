@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Car Bazar Scraper</title>
+    <title>Car Bazar Scraper</title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/res/css/home.css">
 </head>
-<body>
+<body class="bodyChoose"> <!-- bodyChoose/bodyPreloader/bodyTable -->
 
     <!-- Type, Brand, Page, Mby how many -->
-    <main class="main">
+    <main class="main container">
         <h1 class="main__title">Car Bazar Web Scraper</h1>
         
         <div class="main__type">
@@ -58,6 +60,62 @@
             <button class="main__submit">View</button>
         </div>
     </main>
+
+
+    <section class="preloader">
+        <span class="preloader__rot"></span>
+        <h2 class="preloader__title">Scraping</h2>
+    </section>
+
+    <section class="table container">
+        <h1 class="main__title">Scraped Data</h1>
+
+        <table class="main__table">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>Prize</th>
+                    <th>Condition</th>
+                    <th>Distance</th>
+                    <th>Prod. Date</th>
+                    <th>Body</th>
+                    <th>Color</th>
+                    <th>Fuel</th>
+                    <th>Capacity</th>
+                    <th>Performance</th>
+                    <th>Transmission</th>
+                    <th>Gear</th>
+                    <th>Country</th>
+                    <th>Telephone</th>
+                    <th>Url</th>
+                    <th>Img. Url</th>
+                </tr>
+            </tbody>
+
+            <!-- <tr>
+                <td>Jawa</td>
+                <td>48000</td>
+                <td>Ojeté</td>
+                <td>null</td>
+                <td>2/1980</td>
+                <td>Malé moto</td>
+                <td>null</td>
+                <td>Benzín</td>
+                <td>1</td>
+                <td>null</td>
+                <td>null</td>
+                <td>null</td>
+                <td>null</td>
+                <td>420602283428</td>
+                <td>
+                    <a target="_blank" href="https://www.sauto.cz/motorky/detail/jawa/ostatni/164076649">https://www.sauto.cz/motorky/detail/jawa/ostatni/164076649</a>
+                </td>
+                <td>
+                    <a target="_blank" href="https:///d19-a.sdn.cz/d_19/c_img_QO_Ek/wpoIa.jpeg?fl=exf|crr,1.33333,0|res,1024,768,1|wrm,/watermark/sauto.png,10,10|jpg,80,,1">https:///d19-a.sdn.cz/d_19/c_img_QO_Ek/wpoIa.jpeg?fl=exf|crr,1.33333,0|res,1024,768,1|wrm,/watermark/sauto.png,10,10|jpg,80,,1</a>
+                </td>
+            </tr> -->
+        </table>
+    </section>
 
 
     <!-- Js -->

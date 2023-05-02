@@ -125,7 +125,12 @@ function selectOnClick(){
 const mainViewBtn = document.querySelector('.main__submit');
 const utilNumberInput = document.querySelector('.util__number');
 
-mainViewBtn.addEventListener('click', () => {
+mainViewBtn.addEventListener('click', (e) => {
+    document.body.classList.remove('bodyChoose');
+    document.body.classList.add('bodyPreloader');
+
+    e.preventDefault();
+
     const carUrlInfo = {
         type: activeBxs[0].name,
         brand: activeBxs[1].name,
@@ -133,7 +138,64 @@ mainViewBtn.addEventListener('click', () => {
         count: parseInt(utilRange.value)
     }
 
-    const finalUrl = `/auto/?type=${carUrlInfo.type}&brand=${carUrlInfo.brand}&page=${carUrlInfo.page}&count=${carUrlInfo.count}`;
+    const finalUrl = `/auto/data/?type=${carUrlInfo.type}&brand=${carUrlInfo.brand}&page=${carUrlInfo.page}&count=${carUrlInfo.count}`;
 
-    window.location.href = finalUrl;
+    $.ajax({
+        url: finalUrl,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: (carData) => {
+            insertDataToPage(carData);
+        },
+        error: () => {
+            console.error('Backend error :)');
+
+            document.body.className = "";
+            document.body.insertAdjacentHTML('afterbegin', '<h1 style="text-align: center; color: red;">There is some error, please try it later</h1>');
+        }
+    })
 })
+
+
+
+// Insert final data to the page
+const mainTable = document.querySelector('.main__table tbody');
+
+function insertDataToPage(data){
+    data.forEach(car => {
+        const tableHtml = `
+            <tr>
+                <td>${car.name}</td>
+                <td>${car.prize}</td>
+                <td>${car.condition}</td>
+                <td>${car.distance}</td>
+                <td>${car.prodDate}</td>
+                <td>${car.body}</td>
+                <td>${car.color}</td>
+                <td>${car.fuel}</td>
+                <td>${car.capacity}</td>
+                <td>${car.performance}</td>
+                <td>${car.transmission}</td>
+                <td>${car.gear}</td>
+                <td>${car.countryOrigin}</td>
+                <td>
+                    <a href="tel:+${car.telContact}">+${car.telContact}</a>
+                </td>
+                <td>
+                    <a target="_blank" href="${car.url}">${car.url}</a>
+                </td>
+                <td>
+                    <a target="_blank" href="${car.imageUrl}">${car.imageUrl}</a>
+                </td>
+            </tr>
+        `;
+
+        mainTable.insertAdjacentHTML('beforeend', tableHtml);
+    })
+
+    console.log('now done :)');
+
+    document.body.classList.remove('bodyPreloader');
+    document.body.classList.add('bodyTable');
+}

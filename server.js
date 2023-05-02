@@ -15,12 +15,17 @@ app.get('/', (req, res) => {
     res.render('home.ejs');
 })
 
-app.get('/auto/', (req, res) => {
-    res.render('car.ejs');
+app.post('/auto/data/', async (req, res) => {
+    let carData = await startScraping(req.query);
 
-    startScraping(req.query);
+    res.send(carData);
 })
 
+// app.get('/auto/', (req, res) => {
+//     res.render('car.ejs');
+
+//     startScraping(req.query);
+// })
 
 
 

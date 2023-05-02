@@ -19,6 +19,8 @@ export async function startScraping(query){
     currentCarNumber = 0;
 
     await scrapeCarUrls();
+
+    return fullCarInfo;
 }
 
 let carBazarUrl = `https://www.sauto.cz`;
