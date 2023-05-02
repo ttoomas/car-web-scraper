@@ -1,6 +1,6 @@
 # Car Web Scraper
 
-## Small project about scraping data about cars from car bazar and store it to the database
+## Small project about scraping car data from car bazar and store it to the database
 
 ---
 
@@ -19,6 +19,13 @@ npm start
 ## Database
 - Create database with name `car-web-scraper`
 - Inside this db, import `car-web-scape.sql`
+- In file `home.ejs`, find this code (somewhere around line 60):
+```
+<div class="util__bx">
+<div class="util__db disabled">
+<input type="checkbox" name="utilDb" id="utilDb" class="util__dbInput">
+```
+- Here, you want to delete `disabled` class from `util__db` element, so you can save data to database
 
 ## Customization
 ### Database
@@ -36,13 +43,16 @@ const db = mysql.createConnection({
 - password: Your local db password
 - database: Database name
 
-### Finding Car
-- Find `Scrape Car Url (comment)`;
+### Finding Car without website
+- Open `scrapeData.js`
+- Find comment `Scrape Car Variables`;
 ```
-const carBazarUrl = `https://www.sauto.cz`;
-const carTypeUrl = `inzerce/ctyrkolky`;
-const carPageUrl = `?strana=2`;
+let carTypeUrl = `inzerce/osobni/bmw`;
+let currPage = 1;
+let carsNumber = 4;
+let saveToDb = false;
 ```
-- carBazarUrl: Your car bazar url
 - carTypeUrl: Type of car you want to search
-- carPageUrl: Page you want to scrape, if you want to scrape first page, leave it empty
+- currPage: Page you want to start scraping
+- carsNumber: Number of cars you want to scrape
+- saveToDb: true/false if you want to save this to database

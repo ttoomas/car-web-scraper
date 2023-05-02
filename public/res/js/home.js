@@ -124,6 +124,8 @@ function selectOnClick(){
 // View Button
 const mainViewBtn = document.querySelector('.main__submit');
 const utilNumberInput = document.querySelector('.util__number');
+const utilDbBx = document.querySelector('.util__db');
+const utilDbInput = document.querySelector('.util__dbInput');
 
 mainViewBtn.addEventListener('click', (e) => {
     document.body.classList.remove('bodyChoose');
@@ -131,14 +133,17 @@ mainViewBtn.addEventListener('click', (e) => {
 
     e.preventDefault();
 
+    let saveDb = !utilDbBx.classList.contains('disabled') && utilDbInput.checked ? true : false;
+
     const carUrlInfo = {
         type: activeBxs[0].name,
         brand: activeBxs[1].name,
         page: utilNumberInput.value ? parseInt(utilNumberInput.value) : 1,
-        count: parseInt(utilRange.value)
+        count: parseInt(utilRange.value),
+        db: saveDb
     }
 
-    const finalUrl = `/auto/data/?type=${carUrlInfo.type}&brand=${carUrlInfo.brand}&page=${carUrlInfo.page}&count=${carUrlInfo.count}`;
+    const finalUrl = `/auto/data/?type=${carUrlInfo.type}&brand=${carUrlInfo.brand}&page=${carUrlInfo.page}&count=${carUrlInfo.count}&db=${saveDb}`;
 
     $.ajax({
         url: finalUrl,

@@ -1,6 +1,16 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
-// import { idk } from './public/res/js/car.js';
+import mysql from 'mysql';
+
+
+
+// DB SETUP
+export const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "car-web-scrape"
+})
 
 
 // SCRAPE CAR URLS
@@ -13,6 +23,9 @@ export async function startScraping(query){
     carTypeUrl = `inzerce/${query.type}/${query.brand}`;
     currPage = query.page;
     carsNumber = query.count;
+    saveToDb = query.db;
+
+    console.log(saveToDb);
 
     eachCarUrl = [];
     fullCarInfo = [];
@@ -23,10 +36,13 @@ export async function startScraping(query){
     return fullCarInfo;
 }
 
+
+// Scrape Car Variables
 let carBazarUrl = `https://www.sauto.cz`;
 let carTypeUrl = `inzerce/osobni/bmw`;
 let currPage = 1;
 let carsNumber = 4;
+let saveToDb = false;
 
 let eachCarUrl = [];
 let fullCarInfo = [];
@@ -73,17 +89,17 @@ async function scrapeEachCar(){
         await scrapeCarUrls();
 
         return;
-    }
-
+    }    
     
-    console.log('Completed');
-    console.log(fullCarInfo.length);
 
     // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/911/188996724');
     // await scrapeCar('https://www.sauto.cz/osobni/detail/porsche/cayenne/189120921');
     // await scrapeCar('https://www.sauto.cz/motorky/detail/jawa/ostatni/164076649');
-    
-    // await createTable();
+
+    if(saveToDb == "true") await createTable();
+
+    console.log('Completed');
+    console.log(fullCarInfo.length);
 }
 
 

@@ -21,12 +21,6 @@ app.post('/auto/data/', async (req, res) => {
     res.send(carData);
 })
 
-// app.get('/auto/', (req, res) => {
-//     res.render('car.ejs');
-
-//     startScraping(req.query);
-// })
-
 
 
 app.listen(PORT, () => {
