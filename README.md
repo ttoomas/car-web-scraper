@@ -29,7 +29,7 @@ npm start
 
 ## Customization
 ### Database
-- Open `server.js`
+- Open `index.js`
 - Find `DB Setup`
 - Customizate your db
 ```
