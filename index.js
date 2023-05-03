@@ -12,7 +12,7 @@ const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, ('public'))));
 
 app.get('/', (req, res) => {
-    res.render('home.ejs');
+    res.sendFile(__dirname + '/views/home.html')
 })
 
 app.post('/auto/data/', async (req, res) => {
