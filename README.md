@@ -3,6 +3,9 @@
 ## Small project about scraping car data from car bazar and store it to the database
 
 ---
+## View
+- [Live Page](https://car-web-scraper.vercel.app/)
+- [Github Repo](https://github.com/ttoomas/car-web-scraper/)
 
 ## Instalation
 - Clone repository
